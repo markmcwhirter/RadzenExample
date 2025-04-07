@@ -1,0 +1,47 @@
+@page "/hrdata"
+@attribute [Authorize]
+
+<PageTitle>Hrdata</PageTitle>
+<RadzenStack>
+    <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText Text="Hrdata" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenSplitButton Icon="get_app" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+                    <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+                    <RadzenSplitButtonItem Text="CSV" Value="csv" />
+                </RadzenSplitButton>
+                <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow>
+      <RadzenColumn SizeMD=12>
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            Data="@(hrdata)" TItem="LOBR.Models.LOBRCOnfiguration.Hrdatum" RowSelect="@EditRow">
+            <Columns>
+                <RadzenDataGridColumn TItem="LOBR.Models.LOBRCOnfiguration.Hrdatum" Property="Emplid" Title="Emplid">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="LOBR.Models.LOBRCOnfiguration.Hrdatum" Property="EmplizNlz" Title="Empliz Nlz">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="LOBR.Models.LOBRCOnfiguration.Hrdatum" Property="ElidNw" Title="Elid Nw">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="LOBR.Models.LOBRCOnfiguration.Hrdatum" Property="TcfieldDisplayNameLfm" Title="Tcfield Display Name Lfm">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="LOBR.Models.LOBRCOnfiguration.Hrdatum" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="hrdatum">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, hrdatum)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+
+        </RadzenDataGrid>
+
+    </RadzenColumn>
+  </RadzenRow>
+</RadzenStack>

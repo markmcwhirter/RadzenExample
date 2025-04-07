@@ -1,0 +1,54 @@
+@inherits LayoutComponentBase
+<RadzenComponents />
+@using LOBR.DTO
+
+<RadzenLayout style="grid-template-areas: 'rz-header' 'rz-sidebar rz-body'; background-color:white">
+    <RadzenHeader Style="font-family: Verdana">
+        <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Start" Gap="0" >
+            <RadzenColumn Width="12">
+                <div style="width: 100%; height: 2px; background-color: lightgray;"></div>
+                <img src="images/WFLogo.jpg" class="rz-display-inline"  />
+                <RadzenText Text="LOBR Routing System - UAT" TextStyle="TextStyle.H4" class="rz-display-inline" />                
+                <div style="width: 100%; height: 2px; background-color: lightgray;"></div>
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow Gap="0">
+            <RadzenColumn Width="6" JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Start" >
+                <RadzenMenu Style="font-weight: bold; font-size: 11px; color: rgb(51,102,204)" ClickToOpen="false">
+                    <RadzenMenuItem Text="Home" Path="/"  />
+                    <RadzenMenuItem Text="Team Mbr Exceptions" >
+                        <RadzenMenuItem Text="IVR/Phone" >
+                            <RadzenMenuItem Text="HRA Routing" Path="ExceptionsHRA" />
+                            <RadzenMenuItem Text="TC Routing" Path="" />
+                            <RadzenMenuItem Text="Summary and Cleanup" Path="" />
+                        </RadzenMenuItem>
+                        <RadzenMenuItem Text="CHAT" >
+                            <RadzenMenuItem Text="TC Routing" Path="" />
+                            <RadzenMenuItem Text="Summary and Cleanup" Path="" />
+                        </RadzenMenuItem>
+                        <RadzenMenuItem Text="Employee Summary/Details" Path="/products/accessories" />
+                    </RadzenMenuItem>
+                    <RadzenMenuItem Text="Position # Routing"  />
+                    <RadzenMenuItem Text="Executive Routing"  />
+                    <RadzenMenuItem Text="Teamworks Lookup"  />
+                    <RadzenMenuItem Text="Admin"  />
+                </RadzenMenu>
+            </RadzenColumn>
+            <RadzenColumn Width="6" JustifyContent="JustifyContent.End" AlignItems="Radzen.AlignItems.End" Gap="0">
+                    <RadzenText Text="Welcome: McWhirter, Mark " class="rz-display-inline" Style="font-weight: bold; font-size: 11px;" Orientation="Orientation.Center" AlignItems="AlignItems.End"/>       
+                    <RadzenImage Path="images/question.svg" class="rz-display-inline" Orientation="Orientation.Center" AlignItems="AlignItems.End" Width="20px" Height="20px" />
+                    <RadzenImage class="rz-display-inline" Orientation="Orientation.Center" AlignItems="AlignItems.End" />
+                    <RadzenLink class="rz-display-inline" Style="font-weight: bold; font-size: 11px;" Orientation="Orientation.Center" AlignItems="AlignItems.End" Text="Logoff" />
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenHeader>
+    <RadzenBody >
+        <RadzenRow class="rz-mx-auto rz-px-4 rz-pt-2 rz-pt-md-4 rz-pt-lg-6 rz-pt-xl-12 rz-pb-2 rz-pb-lg-12" >
+            <RadzenColumn Size="12">
+            @Body
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenBody>
+   
+</RadzenLayout>
+

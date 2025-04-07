@@ -1,0 +1,11 @@
+@inject NavigationManager NavigationManager
+
+@code {
+    [Parameter]
+    public bool IsAuthenticated { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        NavigationManager.NavigateTo("Unauthorized", true);
+    }
+}

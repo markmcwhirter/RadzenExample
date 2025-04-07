@@ -1,0 +1,303 @@
+@page "/exceptionshra"
+
+@attribute [Authorize]
+
+
+<PageTitle>ExceptionsHRA</PageTitle>
+<RadzenRow>
+    <RadzenFieldset   Text=" Details/Information " Style="width: 50%; font-weight: bold; font-size: 11px;"   AllowCollapse="true" Expanded="false">
+        <RadzenText Text="This page shows all of the exception infrmation for a team member" />
+        <RadzenText Text="It also shows what their routing would be if there was no exception in place" />
+        <RadzenText Text="Take note of the 'Update Pending' column in the Current Exception details section. If this is true then the exception was added today and has not yet been processed." />
+    </RadzenFieldset>
+</RadzenRow>
+<div style="height: 20px" />
+<RadzenRow  JustifyContent="JustifyContent.Left" AlignItems="AlignItems.Start">
+    <RadzenColumn Size="12">
+        <RadzenText Text="Welcome to the Line of Business Routing (LOBR) System" TextStyle="TextStyle.H6" TagName="TagName.H6" />
+    </RadzenColumn>
+</RadzenRow>
+<RadzenRow  JustifyContent="JustifyContent.Left" AlignItems="AlignItems.Start">
+    <RadzenForm Data="@formData" TItem="FormModel" Submit="@HandleSubmit" >
+            <RadzenTextBox Name="Name" @bind-Value="formData.EID" Style="width:100%" Placeholder="Enter EID" class="rz-display-inline" />     
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Submit" Style="margin-top:10px" class="rz-display-inline"  />
+    </RadzenForm>
+</RadzenRow>
+<RadzenRow JustifyContent="JustifyContent.Left" AlignItems="AlignItems.Start" Gap="20px">
+    <div style="width: 100%; height: 2px; background-color: lightgray; margin: 10px;"></div>
+    <RadzenPanel Style="width: 100%;border: 1px solid black; padding: 10px;">
+        <RadzenText Text="Team Member Details and Routing For Today" style="font-weight: bold;" />
+        <!-- Row 1 -->
+        <RadzenRow>
+            <RadzenColumn Size="2">
+                <RadzenText Text="Position #" />
+            </RadzenColumn>
+            <RadzenColumn Size="2">
+                <RadzenText Text="@Position" />
+            </RadzenColumn>        
+        </RadzenRow>
+        <!-- Row 2 -->
+        <RadzenRow>
+            <RadzenColumn Size="2">
+                <RadzenText Text="Name:" />
+            </RadzenColumn>
+            <RadzenColumn Size="2">
+                <RadzenText Text="@Name" />
+            </RadzenColumn>
+        </RadzenRow>
+        <!-- Row 3 -->
+        <RadzenRow>
+            <RadzenColumn Size="2">
+                <RadzenText Text="Job Title:" />
+            </RadzenColumn>
+            <RadzenColumn Size="2">
+                <RadzenText Text="@JobTitle" />
+            </RadzenColumn>
+            <RadzenColumn Size="2"/>
+            <RadzenColumn />
+            <RadzenColumn Size="2">
+                <RadzenText Text="Location State:" />
+            </RadzenColumn>
+            <RadzenColumn Size="2">
+                <RadzenText Text="@LocationState" />
+            </RadzenColumn>
+        </RadzenRow>
+        <!-- Row 4 -->        
+        <RadzenRow>
+            <RadzenColumn Size="2">
+                <RadzenText Text="EID:" />
+            </RadzenColumn>
+            <RadzenColumn>
+                <RadzenText Text="@EID" />
+            </RadzenColumn>
+            <RadzenColumn Size="2">
+                <RadzenText Text="ELID:" />
+            </RadzenColumn>
+            <RadzenColumn >
+                <RadzenText Text="@ELID" />
+            </RadzenColumn>
+
+            <RadzenColumn Size="2">
+                <RadzenText Text="Routing via Rules:" />
+            </RadzenColumn>
+            <RadzenColumn >
+                <RadzenText Text="@RoutingViaRules" />
+            </RadzenColumn>
+        </RadzenRow>
+        <!-- Row 5 -->                
+        <RadzenRow>
+            <RadzenColumn Size="2">
+                <RadzenText Text="Levels Down:" />
+            </RadzenColumn>
+            <RadzenColumn>
+                <RadzenText Text="@LevelsDown" />
+            </RadzenColumn>
+            <RadzenColumn Size="2">
+                <RadzenText Text="AU:" />
+            </RadzenColumn>
+            <RadzenColumn >
+                <RadzenText Text="@AU" />
+            </RadzenColumn>
+
+            <RadzenColumn Size="2">
+                <RadzenText Text="Actual Routing:" />
+            </RadzenColumn>
+            <RadzenColumn >
+                <RadzenText Text="@ActualRouting" />
+            </RadzenColumn>
+        </RadzenRow>
+        <!-- Row 6 -->                
+        <RadzenRow>
+            <RadzenColumn Size="2">
+                <RadzenText Text="Emp. Status:" />
+            </RadzenColumn>
+            <RadzenColumn>
+                <RadzenText Text="@LevelsDown" />
+            </RadzenColumn>
+            <RadzenColumn Size="2">
+                <RadzenText Text="HR Status:" />
+            </RadzenColumn>
+            <RadzenColumn >
+                <RadzenText Text="@AU" />
+            </RadzenColumn>
+
+            <RadzenColumn Size="2">
+                <RadzenText Text="(0 equals 'Default Routing')" />
+            </RadzenColumn>
+            <RadzenColumn >
+                
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow>
+            <div style="border: 1px solid black; width: 100%; margin: 5px;"></div>
+        </RadzenRow>
+        <!-- Row 7 -->
+        <RadzenRow>
+            <RadzenColumn Size="2">
+                <RadzenText Text="Reports to Name" />
+            </RadzenColumn>
+            <RadzenColumn Size="2">
+                <RadzenText Text="@ReportsToName" />
+            </RadzenColumn>        
+        </RadzenRow>
+        <!-- Row 8 -->
+        <RadzenRow>
+            <RadzenColumn Size="2">
+                <RadzenText Text="Reports to Position #" />
+            </RadzenColumn>
+            <RadzenColumn Size="2">
+                <RadzenText Text="@ReportsToPosition" />
+            </RadzenColumn>        
+        </RadzenRow>
+
+    </RadzenPanel>
+    <RadzenPanel Style="width: 100%;border: 1px solid black; padding: 10px;">
+        <RadzenText Text="Current Exception Details" style="font-weight: bold;" />
+        <RadzenDataGrid @ref="ExceptionDetailsGrid"
+                Data="@exceptionDetails"
+                TItem="ExceptionDetails"
+                AllowPaging="true"
+                PageSize="5"
+                AllowSorting="true"
+                AllowFiltering="true"
+                ShowPagingSummary="true"
+                Responsive="true">
+            <Columns>
+            <RadzenDataGridColumn TItem="ExceptionDetails" Property="UpdatePending" Title="Update Pending" Width="80px" />
+            <RadzenDataGridColumn TItem="ExceptionDetails" Property="RouteCode" Title="Route Code" />
+            <RadzenDataGridColumn TItem="ExceptionDetails" Property="CodeEnabled" Title="CodeEnabled" />
+            <RadzenDataGridColumn TItem="ExceptionDetails" Property="RouteDescription" Title="RouteDescription" />
+            <RadzenDataGridColumn TItem="ExceptionDetails" Property="StartDate" Title="StartDate" />
+            <RadzenDataGridColumn TItem="ExceptionDetails" Property="EndDate" Title="EndDate" />
+            <RadzenDataGridColumn TItem="ExceptionDetails" Property="Created" Title="Created" />
+            <RadzenDataGridColumn TItem="ExceptionDetails" Property="CreatedBy" Title="CreatedBy" />
+            <RadzenDataGridColumn TItem="ExceptionDetails" Property="LastUpdated" Title="LastUpdated" />
+            <RadzenDataGridColumn TItem="ExceptionDetails" Property="LastUpdatedBy" Title="LastUpdatedBy" />
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenPanel>
+    <RadzenPanel Style="width: 100%;border: 1px solid black; padding: 10px;">
+    <RadzenText Text="Exception History/Change Log" style="font-weight: bold;" />
+    <RadzenDataGrid @ref="grid2"
+            Data="@employees"
+            TItem="Employee"
+            AllowPaging="true"
+            PageSize="5"
+            AllowSorting="true"
+            AllowFiltering="true"
+            ShowPagingSummary="true"
+            Responsive="true">
+        <Columns>
+            <RadzenDataGridColumn TItem="Employee" Property="Id" Title="ID" Width="80px" />
+            <RadzenDataGridColumn TItem="Employee" Property="Name" Title="Name" />
+            <RadzenDataGridColumn TItem="Employee" Property="Position" Title="Position" />
+            <RadzenDataGridColumn TItem="Employee" Property="Department" Title="Department" />
+        </Columns>
+    </RadzenDataGrid>
+
+    </RadzenPanel>
+</RadzenRow>
+
+@code {
+    private RadzenDataGrid<ExceptionDetails> ExceptionDetailsGrid;
+    private RadzenDataGrid<Employee> grid2;
+
+    public class ExceptionDetails
+    {
+        public string UpdatePending { get; set; }
+        public string RouteCode { get; set; }
+        public string CodeEnabled { get; set; }
+        public string RouteDescription { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public DateTime Created { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime LastUpdated { get; set; }
+        public string LastUpdatedBy { get; set; }
+    };
+
+    private List<ExceptionDetails> exceptionDetails = new()
+    {
+        new ExceptionDetails { 
+            UpdatePending = "true",
+            RouteCode = "XXX",
+            CodeEnabled = "true",
+            RouteDescription = "example route descripiopn",
+            StartDate = new DateTime(2024,1,1),
+            EndDate = new DateTime(2025,1,1),
+            Created = new DateTime(2024,1,1),
+            CreatedBy = "Mark McWhirter",
+            LastUpdated = new DateTime(2025,1,1),
+            LastUpdatedBy = ""
+        }
+    };
+     public class Employee
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Position { get; set; }
+        public string Department { get; set; }
+    };
+
+    private List<Employee> employees = new()
+    {
+        new Employee { Id = 1, Name = "Alice Smith", Position = "Developer", Department = "Engineering" },
+        new Employee { Id = 2, Name = "Bob Johnson", Position = "Designer", Department = "Creative" },
+        new Employee { Id = 3, Name = "Charlie Rose", Position = "Manager", Department = "HR" },
+        new Employee { Id = 4, Name = "Diana King", Position = "Analyst", Department = "Finance" },
+        new Employee { Id = 5, Name = "Evan Lee", Position = "Support", Department = "Customer Service" },
+        new Employee { Id = 6, Name = "Fiona Green", Position = "QA", Department = "Engineering" }
+    };
+
+    public class FormModel
+    {
+        public string EID ;
+    };
+
+    public FormModel formData = new FormModel();
+    public string Position {get;set;}
+    public string Name {get;set;}
+    public string JobTitle { get; set; }
+    public string LocationState { get; set; }
+    public string EID { get; set; }
+    public string ELID { get; set; }
+    public string RoutingViaRules { get; set; }
+    public string LevelsDown { get; set; }
+    public string AU { get; set; }
+    public string ActualRouting { get; set; }
+    public string ReportsToName { get; set; }
+    public string ReportsToPosition { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> Click { get; set; }
+
+    private void OnClick(MouseEventArgs args)
+    {
+        NotificationService.Notify(NotificationSeverity.Success, "Success", "Contact saved successfully!");
+        Click.InvokeAsync(args);
+    }
+
+    private void OnSubmit(FormModel data)
+    {
+        // Handle form submission logic here
+        NotificationService.Notify(NotificationSeverity.Success, "Success", "Contact saved successfully!");
+    }
+
+
+     private async Task HandleSubmit()
+    {
+        try
+        {
+            Console.WriteLine($"Input Value: {formData.EID}");
+            //Db.Contacts.Add(contact);
+            //await Db.SaveChangesAsync();
+            NotificationService.Notify(NotificationSeverity.Success, "Success", "Contact saved successfully!");
+
+            formData = new(); // Reset form
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Error", ex.Message);
+        }
+    }
+}
